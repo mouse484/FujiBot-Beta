@@ -44,50 +44,10 @@ client.on("ready", () => {
 //コマンド
 client.on("message", async message => {
     client.user.setActivity(`f!help | ${client.guilds.size} servers`);
-    {
-        type: "STREAMING";
-    }
-
-    if (message.channel.name === "fujiグロチャ") {
-        if (message.author.bot) return;
-        if (message.attachments.size <= 0) {
-            message.delete();
-        }
-        client.channels.forEach(channel => {
-            if (message.attachments.size <= 0) {
-                const embed = new Discord.RichEmbed()
-                    .setAuthor(message.author.tag, message.author.avatarURL)
-                    .setDescription(message.content)
-                    .setColor(0x2c2f33)
-                    .setFooter(message.guild.name, message.guild.iconURL)
-                    .setTimestamp();
-                if (channel.name === "fujiグロチャ") {
-                    channel.send(embed);
-                    return;
-                }
-                return;
-            }
-            if (
-                !message.attachments.forEach(attachment => {
-                    const embed = new Discord.RichEmbed()
-                        .setAuthor(message.author.tag, message.author.avatarURL)
-                        .setImage(attachment.url)
-                        .setDescription(attachment.url)
-                        .setColor(0x2c2f33)
-                        .setFooter(message.guild.name, message.guild.iconURL)
-                        .setTimestamp();
-                    if (channel.name === "fujiグロチャ") {
-                        channel.send(embed);
-                        return;
-                    }
-                    return;
-                })
-            );
-            return;
-        });
-    }
 
     if (message.author.bot) return;
+    require("./files/global-chat")(client, message);
+
     if (message.content.indexOf(config.prefix) !== 0) return;
 
     const args = message.content
@@ -96,92 +56,6 @@ client.on("message", async message => {
         .split(/ +/g);
     const command = args.shift().toLowerCase();
     const user = message.mentions.users.first();
-
-    if (command === "help") {
-        message.reply("DMにHELPを送信しました。");
-        message.author.send({
-            embed: {
-                color: 2552551,
-                author: {
-                    name: client.user.username,
-                    icon_url: client.user.avatarURL,
-                },
-                title:
-                    "FujiBotのhelp(helpに載ってある全てのコマンドは<f!>で使用出来ます。)",
-
-                fields: [
-                    {
-                        name: "help",
-                        value: "このコマンド",
-                    },
-                    {
-                        name: "ping",
-                        value: "反応時間を測る",
-                    },
-                    {
-                        name: "eval",
-                        value: "bot開発者のみ実行可能",
-                    },
-                    {
-                        name: "役職",
-                        value: "サーバー内の役職を表示",
-                    },
-                    {
-                        name: "ユーザー",
-                        value: "ユーザーの情報を表示",
-                    },
-                    {
-                        name: "サーバー",
-                        value: "サーバーの情報を表示",
-                    },
-                    {
-                        name: "サイコロ",
-                        value: "1〜150をランダムで表示",
-                    },
-                    {
-                        name: "avatar",
-                        value: "あなたのアイコンを表示",
-                    },
-                    {
-                        name: "purge",
-                        value: "bot開発者のみ実行可能",
-                    },
-                    {
-                        name: "グローバルチャット",
-                        value:
-                            "このbotっが入っていて、〈fujiグロチャ〉というチャンネルを作れば(他のこのbotが入ってる鯖の)みんなと繋がれます!",
-                    },
-                    {
-                        name: "botinfo",
-                        value: "botの情報が載せられます。(開発中)",
-                    },
-                    {
-                        name: "時間",
-                        value: "時間を表示する",
-                    },
-                    {
-                        name: "say",
-                        value: "特に意味ないけどこだま返しみたいなやつ",
-                    },
-                    {
-                        name: "入室・退室ログ",
-                        value:
-                            "[member-log]というチャンネルを作れば、退室ログ、入室ログが表示されるようになります。",
-                    },
-                    {
-                        name: "再起動",
-                        value: "bot開発者のみ実行可能",
-                    },
-                ],
-                timestamp: new Date(),
-                footer: {
-                    icon_url: message.author.avatarURL,
-                    text: `実行者: ${message.author.tag}`,
-                },
-            },
-        });
-        return;
-    }
 
     if (command === "ping") {
         const m = await message.channel.send("ping lodging...");
