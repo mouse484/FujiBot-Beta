@@ -1,7 +1,4 @@
-// Response for Uptime Robot
-const http = require('http');
-http.createServer(function(request, response)
-{
+require('http').createServer((request, response)=>{
 	response.writeHead(200, {'Content-Type': 'text/plain'});
 	response.end('botは現在起動しています。 \n');
 }).listen(3000);
@@ -82,11 +79,11 @@ client.on("message", async message => {
   if(message.author.bot) return;
   
   if(message.content.indexOf(config.prefix) !== 0) return;
-  
+
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
   const user = message.mentions.users.first();
-  
+
       if(command === 'help') {
       message.reply('DMにHELPを送信しました。')
       message.author.send({embed: {
@@ -96,8 +93,8 @@ client.on("message", async message => {
         icon_url: client.user.avatarURL
       },
       title: "FujiBotのhelp(helpに載ってある全てのコマンドは<f!>で使用出来ます。)",
-      
-     
+
+
       fields: [{
           name: "help",
           value: "このコマンド"
@@ -187,16 +184,16 @@ client.on("message", async message => {
        return;
         }
     }
-    
+
     if(command === "役職") {
        ROLEZZ = message.guild.roles.array()
-  
+
    var ROLES = "";
 
     ROLEZZ.forEach(function(element){
         ROLES += element.name + "\n"
     });
-    
+
     message.channel.send("```" + "\n" +
                          "---------------------------------" + "\n" +
                          "ALL SERVER ROLES" + "\n" +
@@ -220,7 +217,7 @@ client.on("message", async message => {
       message.channel.send(embed)
       return;
   }
-  
+
   function checkBots(guild) {
   let botCount = 0
   guild.members.forEach(member => {
@@ -236,7 +233,7 @@ function checkMembers(guild) {
   })
   return memberCount
 }
-  
+
     if(command === 'サーバー') {
     let embed = new Discord.RichEmbed()
       .setAuthor(`${message.guild.name} - 情報`, message.guild.iconURL)
@@ -259,7 +256,7 @@ function checkMembers(guild) {
       message.channel.send(embed)
       return;
   }
-  
+
    if(command === "サイコロ") {
        message.channel.startTyping(1)
        message.channel.stopTyping(10);
@@ -275,8 +272,8 @@ function checkMembers(guild) {
         icon_url: client.user.avatarURL
       },
       title: "embed test",
-      
-     
+
+
       fields: [{
           name: "message.author.tag",
           value: `${message.author.tag}`
@@ -291,7 +288,7 @@ function checkMembers(guild) {
   });
   return;
  }
- 
+
   if(command === 'avatar') {
     let embed = new Discord.RichEmbed()
     .addField('your icon!', message.author.tag, true)
@@ -300,15 +297,15 @@ function checkMembers(guild) {
     message.channel.send(embed)
     return;
   }
-  
+
   if(command === "purge") {
   if(message.author.id == ('500077489285103616')) {
 
     const deleteCount = parseInt(args[0], 10);
-    
+
     if(!deleteCount || deleteCount < 2 || deleteCount > 100)
       return message.reply("削除するメッセージ数には2から100までの数字を入力してください");
-    
+
     const fetched = await message.channel.fetchMessages({limit: deleteCount});
     message.channel.bulkDelete(fetched)
       .catch(error => message.reply(`${error}のためメッセージを削除できませんでした`));
@@ -324,7 +321,7 @@ function checkMembers(guild) {
       let minutes = Math.floor(totalSeconds / 60);
       let seconds = totalSeconds % 60;
       let uptime = `${days} 日, ${hours} 時間, ${minutes} 分 / ${seconds} 秒`;
-      
+
       let embed = new Discord.RichEmbed()
       .setTitle('FujiBot BETA(discord.js)')
       .setColor('#E6E6FA')
@@ -339,7 +336,7 @@ function checkMembers(guild) {
       message.channel.send(embed)
       return;
     }
-    
+
     if(command === '時間') {
       const now = new Date(); //  現在日時を得る
       const year = now.getFullYear();
@@ -353,7 +350,7 @@ function checkMembers(guild) {
 
   if(command === "say") {
     const sayMessage = args.join(" ");
-    message.delete().catch(O_o=>{}); 
+    message.delete().catch(O_o=>{});
     let embed = new Discord.RichEmbed()
       .setTitle(sayMessage)
       .setAuthor('Say Command')
@@ -393,11 +390,11 @@ client.on('guildMemberAdd', async member => {
 	// This uses the canvas dimensions to stretch the image onto the entire canvas
 	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  
+
 ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.heigh)
-  
-	// Slightly smaller text placed above the member's display name  
+
+	// Slightly smaller text placed above the member's display name
   ctx.font = '28px DejaVu';
 	ctx.fillStyle = '#ffff00';
 	ctx.fillText(`Welcome to ${member.guild.name},`, canvas.width / 3.0, canvas.height / 3.5);
@@ -406,7 +403,7 @@ ctx.strokeStyle = '#74037b';
   ctx.font = '28px DejaVu';
 	ctx.fillStyle = '#ffff00';
 	ctx.fillText(`${member.user.tag}!`, canvas.width / 3.0, canvas.height / 1.8);
-  
+
   	// Add an exclamation point here and below
   ctx.font = '28px DejaVu';
 	ctx.fillStyle = '#ffff00';
@@ -420,9 +417,9 @@ ctx.strokeStyle = '#74037b';
 	const { body: buffer } = await snekfetch.get(member.user.displayAvatarURL);
 	const avatar = await Canvas.loadImage(buffer);
 	ctx.drawImage(avatar, 25, 25, 200, 200);
-  
+
   const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-  
+
 	channel.send(`ようこそ ${member}さん!`, attachment);
 });
 
@@ -438,11 +435,11 @@ client.on('guildMemberRemove', async member => {
 	// This uses the canvas dimensions to stretch the image onto the entire canvas
 	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  
+
 ctx.strokeStyle = '#74037b';
 	ctx.strokeRect(0, 0, canvas.width, canvas.heigh)
-  
-	// Slightly smaller text placed above the member's display name  
+
+	// Slightly smaller text placed above the member's display name
   ctx.font = '28px DejaVu';
 	ctx.fillStyle = '#ffff00';
 	ctx.fillText(`good bye`,canvas.width / 3.0, canvas.height / 3.5);
@@ -451,7 +448,7 @@ ctx.strokeStyle = '#74037b';
   ctx.font = '28px DejaVu';
 	ctx.fillStyle = '#ffff00';
 	ctx.fillText(`${member.user.tag}...`, canvas.width / 3.0, canvas.height / 1.8);
-  
+
   	// Add an exclamation point here and below
   ctx.font = '28px DejaVu';
 	ctx.fillStyle = '#ffff00';
@@ -465,9 +462,9 @@ ctx.strokeStyle = '#74037b';
 	const { body: buffer } = await snekfetch.get(member.user.displayAvatarURL);
 	const avatar = await Canvas.loadImage(buffer);
 	ctx.drawImage(avatar, 25, 25, 200, 200);
-  
+
   const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
-  
+
 	channel.send(`さよなら ${member}さん…`, attachment);
 });
 
