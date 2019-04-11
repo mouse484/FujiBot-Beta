@@ -16,6 +16,6 @@
     "scripts": {
         "start": "node main.js",
         "test": "node main.js",
-        "pret": "prettier --write *js"
+        "dev": "prettier --write *js && node --require dotenv/config main.js"
     }
 }

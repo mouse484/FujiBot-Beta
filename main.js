@@ -5,15 +5,20 @@ require("http")
     })
     .listen(3000);
 
-const Discord = require("discord.js");
-const client = new Discord.Client({ autoReconnect: true });
+const Ecstar = require("ecstar");
 const Canvas = require("canvas");
+
+const config = require("./config");
+
+const client = new Ecstar.client({
+    prefix: config.prefix,
+    command: `${__dirname}/commands`,
+    log: true,
+});
 
 const snekfetch = require("snekfetch");
 const fs = require("fs");
 
-//json達
-const config = require("./config.json");
 const serverdata = require("./serverdata.json");
 
 //ログインしたらコンソールに出るのと〇〇を配信中のやつ
@@ -561,4 +566,4 @@ client.on("error", error => {
     console.log(error);
 });
 
-client.login(process.env.token);
+client.login(config.token);
